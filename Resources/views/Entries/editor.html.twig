@@ -1,0 +1,56 @@
+{% extends 'BlogBundle::base.html.twig' %}
+
+{% trans_default_domain 'blog' %}
+
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block title %}{{ page_title|trans }}{% endblock %}
+
+{% block blog_content %}
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {{ form_start(form) }}
+                
+                {{ form_row(form._token) }}
+
+                {{ form_label(form.title) }}
+                {{ form_errors(form.title) }}
+                {{ form_widget(form.title) }}
+                <br>
+                {{ form_label(form.content) }}
+                {{ form_errors(form.content) }}
+                <br>
+                {{ form_widget(form.content) }}
+                <br>
+                {{ form_label(form.category) }}
+                {{ form_widget(form.category) }}
+                <br>
+                {{ form_label(form.tags) }}
+                <ul class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e }}" style="padding: 0px;list-style-type: none;">
+                    {% for tag in form.tags %}
+                        <li>
+                            <label class="control-label" for="{{ tag.vars.id }}">Name</label>
+                            <input type="text" id="{{ tag.vars.id }}" name="{{ tag.vars.full_name }}" maxlength="{{ tag.vars.max_length }}" class="form-control" value="{{ tag.vars.data.name }}" disabled>
+                            <button type="button" class="btn btn-danger btn-xs remove-tag" style="margin-bottom: 10px;margin-top: 15px;">Remove</button>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                {{ form_label(form.datetime) }}
+                {{ form_widget(form.datetime) }}
+                <br>
+                <button type="submit" id="{{ form.save.vars.id }}" name="{{ form.save.vars.full_name }}" class="btn-primary btn pull-right">{{ submit_button|trans }}</button>
+
+                {{ form_end(form, {'render_rest': false}) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts '@BlogBundle/Resources/public/js/*' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

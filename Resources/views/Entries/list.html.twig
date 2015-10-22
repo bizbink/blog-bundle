@@ -1,0 +1,50 @@
+{% extends 'BlogBundle::base.html.twig' %}
+
+{% trans_default_domain 'blog' %}
+
+{% block title %}{{ 'entry.list'|trans }}{% endblock %}
+
+{% block blog_content %}
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Author</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Date & Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            {% for blog_entry in blog_entries %}
+                <tbody>
+                    <tr>
+                        <td>{{ blog_entry.id }}</td>
+                        <td>{{ blog_entry.author.username }}</td>
+                        <td>{{ blog_entry.title }}</td>
+                        {% if blog_entry.category %}
+                            <td>{{ blog_entry.category.name }}</td>
+                        {% else %}
+                            <td>N/A</td>
+                        {% endif %}
+                        <td>{{ blog_entry.datetime | date('F jS \\a\\t g:ia') }}</td>
+                        <td>
+                            <a class="btn btn-primary" href="{{ path('blog_entries_view', {'id': blog_entry.id}) }}" role="button">View</a>
+                            <a class="btn btn-success" href="{{ path('blog_entries_edit', {'id': blog_entry.id}) }}" role="button">Edit</a>
+                            <a class="btn btn-danger" href="{{ path('blog_entries_delete', {'id': blog_entry.id}) }}" role="button">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="row">
+        <nav>
+            <ul class="pager">
+                <li class="{{ page == 1 ? 'disabled'}}"><a href="{{ path('blog_entries_page', {'page': page - 1}) }}">Previous</a></li>
+                <li><a href="{{ path('blog_entries_page', {'page': page + 1}) }}">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
