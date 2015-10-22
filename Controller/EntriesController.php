@@ -82,12 +82,12 @@ class EntriesController extends Controller {
                 ->getRepository('BlogBundle:Tag');
         $blogCategories = $blogCategoryRepository->findAll();
         $blogTags = $blogTagRepository->findAll();
-        $form = $this->createForm(new EntryType());
+        $entry = new \bizbink\BlogBundle\Entity\Entry();
+        $form = $this->createForm(new EntryType(), $entry);
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $entry = $form->getData();
             $entry->setAuthor($this->getUser());
             if (is_null($entry->getContent())) {
                 $this->addFlash(
