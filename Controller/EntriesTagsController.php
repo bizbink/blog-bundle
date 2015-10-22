@@ -26,13 +26,21 @@ class EntriesTagsController extends Controller {
     public function pageAction(Request $request, $tag, $page) {
         $blogEntryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Entry');
+        $blogCategoryRepository = $this->getDoctrine()
+                ->getRepository('BlogBundle:Category');
+        $blogTagRepository = $this->getDoctrine()
+                ->getRepository('BlogBundle:Tag');
         $blogEntries = $blogEntryRepository->findAllByTagName($tag, $page);
+        $blogCategories = $blogCategoryRepository->findAll();
+        $blogTags = $blogTagRepository->findAll();
         if (empty($blogEntries)) {
             throw $this->createNotFoundException();
         }
         return $this->render('BlogBundle:Entries:page.html.twig', array(
+                    'blog_categories' => $blogCategories,
+                    'blog_tags' => $blogTags,
+                    'blog_entries' => $blogEntries,
                     'page' => $page,
-                    'blog_entries' => $blogEntries
         ));
     }
 

@@ -29,17 +29,21 @@ class EntriesController extends Controller {
                 ->getRepository('BlogBundle:Entry');
         $blogCategoryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Category');
+        $blogTagRepository = $this->getDoctrine()
+                ->getRepository('BlogBundle:Tag');
         $blogEntries = $blogEntryRepository->findByPageOrderByIdReversed($page);
         $blogCategories = $blogCategoryRepository->findAll();
+        $blogTags = $blogTagRepository->findAll();
         if (empty($blogEntries)) {
             throw $this->createNotFoundException(
                     'No entries found for page ' . $page
             );
         }
         return $this->render('BlogBundle:Entries:page.html.twig', array(
-                    'page' => $page,
+                    'blog_categories' => $blogCategories,
+                    'blog_tags' => $blogTags,
                     'blog_entries' => $blogEntries,
-                    'blog_categories' => $blogCategories
+                    'page' => $page,
         ));
     }
 
@@ -49,15 +53,22 @@ class EntriesController extends Controller {
     public function viewAction(Request $request, $id) {
         $blogEntryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Entry');
+        $blogCategoryRepository = $this->getDoctrine()
+                ->getRepository('BlogBundle:Category');
+        $blogTagRepository = $this->getDoctrine()
+                ->getRepository('BlogBundle:Tag');
         $blogEntry = $blogEntryRepository->find($id);
+        $blogCategories = $blogCategoryRepository->findAll();
+        $blogTags = $blogTagRepository->findAll();
         if (!$blogEntry) {
             throw $this->createNotFoundException(
                     'No entry found for id ' . $id
             );
         }
         return $this->render('BlogBundle:Entries:view.html.twig', array(
-                    'page' => $id,
-                    'blog_entry' => $blogEntry
+                    'blog_categories' => $blogCategories,
+                    'blog_entry' => $blogEntry,
+                    'blog_tags' => $blogTags,
         ));
     }
 
@@ -65,6 +76,12 @@ class EntriesController extends Controller {
      * @Route("/entries/new", name="blog_entries_new")
      */
     public function newAction(Request $request) {
+        $blogCategoryRepository = $this->getDoctrine()
+                ->getRepository('BlogBundle:Category');
+        $blogTagRepository = $this->getDoctrine()
+                ->getRepository('BlogBundle:Tag');
+        $blogCategories = $blogCategoryRepository->findAll();
+        $blogTags = $blogTagRepository->findAll();
         $form = $this->createForm(new EntryType());
 
         $form->handleRequest($request);
@@ -97,9 +114,11 @@ class EntriesController extends Controller {
             }
         }
         return $this->render('BlogBundle:Entries:editor.html.twig', array(
+                    'page_title' => 'entry.new.title',
+                    'blog_categories' => $blogCategories,
+                    'blog_tags' => $blogTags,
                     'form' => $form->createView(),
                     'submit_button' => 'entry.new.submit',
-                    'page_title' => 'entry.new.title',
         ));
     }
 
@@ -107,6 +126,12 @@ class EntriesController extends Controller {
      * @Route("/entries/edit/{id}", requirements={"id" = "\d+"}, name="blog_entries_edit")
      */
     public function editAction(Request $request, $id) {
+        $blogCategoryRepository = $this->getDoctrine()
+                ->getRepository('BlogBundle:Category');
+        $blogTagRepository = $this->getDoctrine()
+                ->getRepository('BlogBundle:Tag');
+        $blogCategories = $blogCategoryRepository->findAll();
+        $blogTags = $blogTagRepository->findAll();
         $em = $this->getDoctrine()->getManager();
 
         $blogEntriesRespority = $em->getRepository('BlogBundle:Entry');
@@ -167,9 +192,11 @@ class EntriesController extends Controller {
             }
         }
         return $this->render('BlogBundle:Entries:editor.html.twig', array(
+                    'page_title' => 'entry.edit.title',
+                    'blog_categories' => $blogCategories,
+                    'blog_tags' => $blogTags,
                     'form' => $form->createView(),
                     'submit_button' => 'entry.edit.submit',
-                    'page_title' => 'entry.edit.title',
         ));
     }
 
