@@ -27,7 +27,10 @@ class EntriesController extends Controller {
     public function pageAction(Request $request, $page) {
         $blogEntryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Entry');
+        $blogCategoryRepository = $this->getDoctrine()
+                ->getRepository('BlogBundle:Category');
         $blogEntries = $blogEntryRepository->findByPageOrderByIdReversed($page);
+        $blogCategories = $blogCategoryRepository->findAll();
         if (empty($blogEntries)) {
             throw $this->createNotFoundException(
                     'No entries found for page ' . $page
@@ -35,7 +38,8 @@ class EntriesController extends Controller {
         }
         return $this->render('BlogBundle:Entries:page.html.twig', array(
                     'page' => $page,
-                    'blog_entries' => $blogEntries
+                    'blog_entries' => $blogEntries,
+                    'blog_categories' => $blogCategories
         ));
     }
 
@@ -180,7 +184,7 @@ class EntriesController extends Controller {
         $entry = $blogEntriesRespority->find($id);
         $em->remove($entry);
         $em->flush();
-        
+
         $this->addFlash(
                 'success', 'Entry successfully deleted!'
         );
