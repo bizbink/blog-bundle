@@ -73,9 +73,9 @@ class EntriesController extends Controller {
     }
 
     /**
-     * @Route("/entries/new", name="blog_entries_new")
+     * @Route("/entries/create", name="blog_entries_create")
      */
-    public function newAction(Request $request) {
+    public function createAction(Request $request) {
         $blogCategoryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Category');
         $blogTagRepository = $this->getDoctrine()
