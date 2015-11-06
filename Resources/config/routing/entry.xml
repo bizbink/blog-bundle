@@ -26,18 +26,4 @@ and open the template in the editor.
         <requirement key="id">\d+</requirement>
     </route>
 
-    <route id="bizbink_blog_entry_create" path="/create" methods="GET POST">
-        <default key="_controller">BlogBundle:Entry:create</default>
-    </route>
-
-    <route id="bizbink_blog_entry_edit" path="/edit/{id}" methods="GET POST">
-        <default key="_controller">BlogBundle:Entry:edit</default>
-        <default key="id">1</default>
-        <requirement key="id">\d+</requirement>
-    </route>
-
-    <route id="bizbink_blog_entry_delete" path="/delete" methods="POST">
-        <default key="_controller">BlogBundle:Entry:delete</default>
-    </route>
-
 </routes>

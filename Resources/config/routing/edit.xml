@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="bizbink_blog_entry_edit" path="/edit/{id}" methods="GET POST">
+        <default key="_controller">BlogBundle:Entry:edit</default>
+        <default key="id">1</default>
+        <requirement key="id">\d+</requirement>
+    </route>
+
+</routes>
