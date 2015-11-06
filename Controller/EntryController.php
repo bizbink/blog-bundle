@@ -8,22 +8,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * EntriesController
+ * EntryController
  * 
  * @author Matthew Vanderende <matthew@vanderende.ca>
  */
-class EntriesController extends Controller {
-
-    /**
-     * @Route("/entries/", defaults={"page" = 1}, name="blog_entries")
-     */
+class EntryController extends Controller {
+    
     public function indexAction(Request $request, $page) {
         return $this->pageAction($request, $page);
     }
-
-    /**
-     * @Route("/entries/page/{page}/", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="blog_entries_page")
-     */
+    
     public function pageAction(Request $request, $page) {
         $blogEntryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Entry');
@@ -46,10 +40,7 @@ class EntriesController extends Controller {
                     'page' => $page,
         ));
     }
-
-    /**
-     * @Route("/entries/{id}/", requirements={"id" = "\d+"}, defaults={"id" = 1}, name="blog_entries_view")
-     */
+    
     public function viewAction(Request $request, $id) {
         $blogEntryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Entry');
@@ -71,10 +62,7 @@ class EntriesController extends Controller {
                     'blog_tags' => $blogTags,
         ));
     }
-
-    /**
-     * @Route("/entries/create", name="blog_entries_create")
-     */
+    
     public function createAction(Request $request) {
         $blogCategoryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Category');
@@ -121,10 +109,7 @@ class EntriesController extends Controller {
                     'submit_button' => 'entry.new.submit',
         ));
     }
-
-    /**
-     * @Route("/entries/edit/{id}", requirements={"id" = "\d+"}, name="blog_entries_edit")
-     */
+    
     public function editAction(Request $request, $id) {
         $blogCategoryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Category');
@@ -158,37 +143,54 @@ class EntriesController extends Controller {
         if ($form->isValid()) {
 
             $entry->setAuthor($this->getUser());
-            $entry->setTitle($form->get('title')->getData());
-            $entry->setContent($form->get('content')->getData());
-            $entry->setCategory($form->get('category')->getData());
-            foreach ($entry->getTags() as $entryTag) {
-                $entry->removeTag($entryTag);
+
+            foreach ($originalTags as $tag) {
+                if (false === $entry->getTags()->contains($tag)) {
+                    // remove the Task from the Tag
+                    $tag->getEntries()->removeElement($entry);
+
+                    $em->persist($tag);
+
+                    // if you wanted to delete the Tag entirely, you can also do that
+                    // $em->remove($tag);
+                }
             }
-            foreach ($form->get('tags')->getData() as $formTag) {
-                $entry->addTag($formTag);
+
+            // remove duplicates
+            $match = 0;
+            foreach ($entry->getTags() as $tag1) {
+                foreach ($entry->getTags() as $tag2) {
+                    if ($tag1->getName() == $tag2->getName()) {
+                        $match += 1;
+                        if ($match > 1) {
+                            $entry->getTags()->removeElement($tag1);
+                        }
+                    }
+                }
             }
-            $entry->setDatetime($form->get('datetime')->getData());
 
             if (is_null($entry->getContent())) {
                 $this->addFlash(
                         'warning', "'Content' field cannot be empty."
                 );
             } else {
-                $blogTagRespority = $this->getDoctrine()
-                        ->getRepository('BlogBundle:Tag');
                 foreach ($entry->getTags() as $tag) {
-                    $foundTag = $blogTagRespority->findOneByName($tag->getName());
+                    $foundTag = $blogTagRepository->findOneByName($tag->getName());
                     if ($foundTag) {
                         $entry->removeTag($tag);
                         $entry->addTag($foundTag);
                     }
                 }
 
+
+                $em->persist($entry);
                 $em->flush();
 
                 $this->addFlash(
                         'success', 'Entry successfully saved!'
                 );
+                
+                return $this->redirectToRoute('blog_entries_edit', array('id' => $id));
             }
         }
         return $this->render('BlogBundle:Entries:editor.html.twig', array(
@@ -199,10 +201,7 @@ class EntriesController extends Controller {
                     'submit_button' => 'entry.edit.submit',
         ));
     }
-
-    /**
-     * @Route("/entries/delete/{id}", requirements={"id" = "\d+"}, name="blog_entries_delete")
-     */
+    
     public function deleteAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 

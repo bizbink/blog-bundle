@@ -1,14 +1,17 @@
 {% extends 'BlogBundle::base.html.twig' %}
 
-{% block title %}{{ blog_entry.title }}{% endblock %}
+{% trans_default_domain 'blog' %}
+
+{% block title %}{{ 'entry.page'|trans }}{% endblock %}
 
 {% block blog_content %}
     <div class="row">
+        {% for blog_entry in blog_entries %}
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="media">
                         <div class="media-body">
-                            <h4 class="media-heading">{{ blog_entry.title }}</h4>
+                            <h4 class="media-heading"><a href="{{ path('bizbink_blog_entry_view', {'id': blog_entry.id}) }}">{{ blog_entry.title }}</a></h4>
                             <h6 class="media-heading">
                                 <span class="fa fa-user"></span> {{ blog_entry.author.username }} &#8226 
                                 <span class="fa fa-folder"></span>
@@ -21,7 +24,7 @@
                                 <span class="fa fa-calendar"></span> {{ blog_entry.datetime | date('F jS \\a\\t g:ia') }}
                             </h6>
 
-                            {{ blog_entry.content | raw }}
+                            <p>{{ blog_entry.content|striptags|slice(0, 255) }}...</p>
 
                             {% if not blog_entry.tags is empty %}
                                 <hr>
@@ -34,5 +37,14 @@
                     </div>
                 </div>
             </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <nav>
+            <ul class="pager">
+                <li class="{{ page - 1 == 0 ? 'disabled' }}"><a href="{{ path('bizbink_blog_category_page', {'category': category, 'page': page - 1}) }}">Previous</a></li>
+                <li><a href="{{ path('bizbink_blog_category_page', {'category': category, 'page': page + 1}) }}">Next</a></li>
+            </ul>
+        </nav>
     </div>
 {% endblock %}

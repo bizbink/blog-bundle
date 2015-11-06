@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="bizbink_blog_entry_list" path="/list/{page}">
+        <default key="_controller">BlogBundle:List:index</default>
+        <default key="page">1</default>
+    </route>
+
+    <route id="bizbink_blog_entry_list_page" path="/list/{page}">
+        <default key="_controller">BlogBundle:List:page</default>
+        <default key="page">1</default>
+        <requirement key="page">\d+</requirement>
+    </route>
+
+</routes>

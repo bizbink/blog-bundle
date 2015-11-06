@@ -23,8 +23,14 @@ class TagRepository extends EntityRepository {
                 ->setFirstResult(0)
                 ->setMaxResults(1)
                 ->setParameter('name', $name);
+
+        $results = $queryBuilder->getQuery()->getResult();
         
-        return $queryBuilder->getQuery()->getResult()[0];
+        if ($results) {
+            return $queryBuilder->getQuery()->getResult()[0];
+        }
+
+        return FALSE;
     }
 
 }

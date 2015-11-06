@@ -30,9 +30,9 @@
                         {% endif %}
                         <td>{{ blog_entry.datetime | date('F jS \\a\\t g:ia') }}</td>
                         <td>
-                            <a class="btn btn-primary" href="{{ path('blog_entries_view', {'id': blog_entry.id}) }}" role="button">View</a>
-                            <a class="btn btn-success" href="{{ path('blog_entries_edit', {'id': blog_entry.id}) }}" role="button">Edit</a>
-                            <a class="btn btn-danger" href="{{ path('blog_entries_delete', {'id': blog_entry.id}) }}" role="button">Delete</a>
+                            <a class="btn btn-primary" href="{{ path('bizbink_blog_entry_view', {'id': blog_entry.id}) }}" role="button">View</a>
+                            <a class="btn btn-success" href="{{ path('bizbink_blog_entry_edit', {'id': blog_entry.id}) }}" role="button">Edit</a>
+                            <a class="btn btn-danger" href="{{ path('bizbink_blog_entry_delete', {'id': blog_entry.id}) }}" role="button">Delete</a>
                         </td>
                     </tr>
                 </tbody>
@@ -42,8 +42,8 @@
     <div class="row">
         <nav>
             <ul class="pager">
-                <li class="{{ page == 1 ? 'disabled'}}"><a href="{{ path('blog_entries_page', {'page': page - 1}) }}">Previous</a></li>
-                <li><a href="{{ path('blog_entries_page', {'page': page + 1}) }}">Next</a></li>
+                <li class="{{ page == 1 ? 'disabled'}}"><a href="{{ path('bizbink_blog_entry_list_page', {'page': page - 1}) }}">Previous</a></li>
+                <li><a href="{{ path('bizbink_blog_entry_list_page', {'page': page + 1}) }}">Next</a></li>
             </ul>
         </nav>
     </div>

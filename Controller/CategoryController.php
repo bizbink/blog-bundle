@@ -7,39 +7,34 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * EntriesTagsController
+ * CategoryController
  * 
  * @author Matthew Vanderende <matthew@vanderende.ca>
  */
-class EntriesTagsController extends Controller {
-
-    /**
-     * @Route("/entries/tags/{tag}/", defaults={"page" = 1}, name="blog_entries_tags")
-     */
-    public function indexAction(Request $request, $tag, $page) {
-        return $this->pageAction($request, $tag, $page);
+class CategoryController extends Controller {
+    
+    public function indexAction(Request $request, $category, $page) {
+        return $this->pageAction($request, $category, $page);
     }
-
-    /**
-     * @Route("/entries/tags/{tag}/page/{page}/", requirements={"page" = "\d+"}, name="blog_entries_tags_page")
-     */
-    public function pageAction(Request $request, $tag, $page) {
+    
+    public function pageAction(Request $request, $category, $page) {
         $blogEntryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Entry');
         $blogCategoryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Category');
         $blogTagRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Tag');
-        $blogEntries = $blogEntryRepository->findAllByTagName($tag, $page);
+        $blogEntries = $blogEntryRepository->findAllByCategoryName($category, $page);
         $blogCategories = $blogCategoryRepository->findAll();
         $blogTags = $blogTagRepository->findAll();
         if (empty($blogEntries)) {
             throw $this->createNotFoundException();
         }
-        return $this->render('BlogBundle:Entries:page.html.twig', array(
+        return $this->render('BlogBundle:Entries:Category/page.html.twig', array(
                     'blog_categories' => $blogCategories,
                     'blog_tags' => $blogTags,
                     'blog_entries' => $blogEntries,
+                    'category' => $category,
                     'page' => $page,
         ));
     }
