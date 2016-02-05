@@ -1,5 +1,5 @@
 {
-    "name": "bizbink/BlogBundle",
+    "name": "bizbink/blog-bundle",
     "description": "A Symfony Bundle that provides blog management.",
     "authors": [
         {
