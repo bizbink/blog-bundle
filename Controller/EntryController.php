@@ -71,7 +71,7 @@ class EntryController extends Controller {
         $blogCategories = $blogCategoryRepository->findAll();
         $blogTags = $blogTagRepository->findAll();
         $entry = new \bizbink\BlogBundle\Entity\Entry();
-        $form = $this->createForm(new EntryType(), $entry);
+        $form = $this->createForm(EntryType::class, $entry);
 
         $form->handleRequest($request);
 

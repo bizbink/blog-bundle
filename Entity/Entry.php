@@ -31,7 +31,7 @@ class Entry {
      * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"}, inversedBy="entries")
      * @ORM\JoinTable(name="blog_entries_tags")
      * */
-    public $tags;
+    private $tags;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")

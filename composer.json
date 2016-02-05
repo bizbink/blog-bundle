@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "egeloen/ckeditor-bundle": "^3.0"
+        "egeloen/ckeditor-bundle": "^4.0.1"
     },
     "autoload": {
         "psr-4": {

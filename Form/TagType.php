@@ -30,7 +30,7 @@ class TagType extends AbstractType {
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'type' => 'text',
+            'entity_type' => 'text',
             'data_class' => 'bizbink\BlogBundle\Entity\Tag'
         ));
     }
