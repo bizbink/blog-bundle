@@ -22,7 +22,6 @@ and open the template in the editor.
 
     <route id="bizbink_blog_entry_view" path="/view/{id}" methods="GET">
         <default key="_controller">BlogBundle:Entry:view</default>
-        <default key="id">1</default>
         <requirement key="id">\d+</requirement>
     </route>
 
