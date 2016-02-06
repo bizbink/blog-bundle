@@ -190,7 +190,7 @@ class EntryController extends Controller {
                         'success', 'Entry successfully saved!'
                 );
                 
-                return $this->redirectToRoute('blog_entries_edit', array('id' => $id));
+                return $this->redirectToRoute('bizbink_blog_entry_edit', array('id' => $id));
             }
         }
         return $this->render('BlogBundle:Entries:editor.html.twig', array(
