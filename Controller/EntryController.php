@@ -13,11 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
  * @author Matthew Vanderende <matthew@vanderende.ca>
  */
 class EntryController extends Controller {
-    
+
     public function indexAction(Request $request, $page) {
         return $this->pageAction($request, $page);
     }
-    
+
     public function pageAction(Request $request, $page) {
         $blogEntryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Entry');
@@ -40,7 +40,7 @@ class EntryController extends Controller {
                     'page' => $page,
         ));
     }
-    
+
     public function viewAction(Request $request, $id) {
         $blogEntryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Entry');
@@ -62,7 +62,7 @@ class EntryController extends Controller {
                     'blog_tags' => $blogTags,
         ));
     }
-    
+
     public function createAction(Request $request) {
         $blogCategoryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Category');
@@ -85,10 +85,10 @@ class EntryController extends Controller {
                 $blogTagRespority = $this->getDoctrine()
                         ->getRepository('BlogBundle:Tag');
                 foreach ($entry->getTags() as $tag) {
-                    $foundTags = $blogTagRespority->findOneByName($tag->getName());
-                    if (!empty($foundTags)) {
+                    $foundTag = $blogTagRespority->findOneByName($tag->getName());
+                    if (!empty($foundTag)) {
                         $entry->removeTag($tag);
-                        $entry->addTag($foundTag[0]);
+                        $entry->addTag($foundTag);
                     }
                 }
 
@@ -109,7 +109,7 @@ class EntryController extends Controller {
                     'submit_button' => 'entry.new.submit',
         ));
     }
-    
+
     public function editAction(Request $request, $id) {
         $blogCategoryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Category');
@@ -146,26 +146,13 @@ class EntryController extends Controller {
 
             foreach ($originalTags as $tag) {
                 if (false === $entry->getTags()->contains($tag)) {
-                    // remove the Task from the Tag
+                    // remove the Entry from the Tag
                     $tag->getEntries()->removeElement($entry);
 
                     $em->persist($tag);
 
                     // if you wanted to delete the Tag entirely, you can also do that
                     // $em->remove($tag);
-                }
-            }
-
-            // remove duplicates
-            $match = 0;
-            foreach ($entry->getTags() as $tag1) {
-                foreach ($entry->getTags() as $tag2) {
-                    if ($tag1->getName() == $tag2->getName()) {
-                        $match += 1;
-                        if ($match > 1) {
-                            $entry->getTags()->removeElement($tag1);
-                        }
-                    }
                 }
             }
 
@@ -189,7 +176,7 @@ class EntryController extends Controller {
                 $this->addFlash(
                         'success', 'Entry successfully saved!'
                 );
-                
+
                 return $this->redirectToRoute('bizbink_blog_entry_edit', array('id' => $id));
             }
         }
@@ -201,7 +188,7 @@ class EntryController extends Controller {
                     'submit_button' => 'entry.edit.submit',
         ));
     }
-    
+
     public function deleteAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
