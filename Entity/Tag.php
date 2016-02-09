@@ -102,5 +102,9 @@ class Tag {
     public function getEntries() {
         return $this->entries;
     }
+    
+    public function __toString() {
+        return $this->getName();
+    }
 
 }

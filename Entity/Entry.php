@@ -4,6 +4,7 @@ namespace bizbink\BlogBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Entry
@@ -46,6 +47,7 @@ class Entry {
 
     /**
      * @ORM\Column(name="content", type="text")
+     * @Assert\NotBlank()
      */
     private $content;
 
@@ -154,6 +156,10 @@ class Entry {
      */
     public function getCategory() {
         return $this->category;
+    }
+    
+    public function setTags(ArrayCollection $tags) {
+        $this->tags = $tags;
     }
 
     /**

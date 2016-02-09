@@ -27,12 +27,12 @@
                 {{ form_widget(form.category) }}
                 <br>
                 {{ form_label(form.tags) }}
-                <ul class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e }}" style="padding: 0px;list-style-type: none;">
+                <ul class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e }}" style="padding: 0px;list-style-type: none;margin-bottom: 0px;">
                     {% for tag in form.tags %}           
-                        <div>
-                            {{ form_widget(tag) }}
+                        <li>
+                            {{ form_row(tag.name, { 'attr':{'readonly':true} }) }}
                             <button type="button" class="btn btn-danger btn-xs remove-tag" style="margin-bottom: 15px;">Remove</button>
-                        </div>
+                        </li>
                     {% endfor %}
                 </ul>
                 <br>

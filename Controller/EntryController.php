@@ -156,30 +156,28 @@ class EntryController extends Controller {
                 }
             }
 
-            if (is_null($entry->getContent())) {
-                $this->addFlash(
-                        'warning', "'Content' field cannot be empty."
-                );
-            } else {
-                foreach ($entry->getTags() as $tag) {
-                    $foundTag = $blogTagRepository->findOneByName($tag->getName());
-                    if ($foundTag) {
-                        $entry->removeTag($tag);
-                        $entry->addTag($foundTag);
-                    }
+            // remove duplicates
+            $entry->setTags(new \Doctrine\Common\Collections\ArrayCollection(
+                    array_unique($entry->getTags()->toArray()
+            )));
+
+            foreach ($entry->getTags() as $tag) {
+                $foundTag = $blogTagRepository->findOneByName($tag->getName());
+                if ($foundTag) {
+                    $entry->removeTag($tag);
+                    $entry->addTag($foundTag);
                 }
-
-
-                $em->persist($entry);
-                $em->flush();
-
-                $this->addFlash(
-                        'success', 'Entry successfully saved!'
-                );
-
-                return $this->redirectToRoute('bizbink_blog_entry_edit', array('id' => $id));
             }
+            $em->persist($entry);
+            $em->flush();
+
+            $this->addFlash(
+                    'success', 'Entry successfully saved!'
+            );
+
+            return $this->redirectToRoute('bizbink_blog_entry_edit', array('id' => $id));
         }
+
         return $this->render('BlogBundle:Entries:editor.html.twig', array(
                     'page_title' => 'entry.edit.title',
                     'blog_categories' => $blogCategories,

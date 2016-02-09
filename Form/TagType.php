@@ -21,7 +21,7 @@ class TagType extends AbstractType {
         $builder
                 ->add('name', NULL, array(
                     'required' => true,
-                    'label' => 'entry.form.tag_name',
+                    'label' => false,
                     'translation_domain' => 'blog'));
     }
 
