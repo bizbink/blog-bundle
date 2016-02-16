@@ -9,7 +9,7 @@ and open the template in the editor.
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="bizbink_blog_entry_delete" path="/delete" methods="POST">
+    <route id="bizbink_blog_entry_delete" path="/delete/{id}" methods="GET POST">
         <default key="_controller">BlogBundle:Entry:delete</default>
     </route>
 

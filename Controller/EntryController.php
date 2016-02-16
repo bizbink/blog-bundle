@@ -200,7 +200,7 @@ class EntryController extends Controller {
                 'success', 'Entry successfully deleted!'
         );
 
-        return $this->redirectToRoute('blog_entries_list');
+        return $this->redirectToRoute('bizbink_blog_entry_list');
     }
 
 }
