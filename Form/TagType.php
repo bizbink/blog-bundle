@@ -3,8 +3,9 @@
 namespace bizbink\BlogBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * TagType
@@ -19,27 +20,19 @@ class TagType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('name', NULL, array(
+                ->add('name', TextType::class, array(
                     'required' => true,
                     'label' => false,
                     'translation_domain' => 'blog'));
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
-            'entity_type' => 'text',
             'data_class' => 'bizbink\BlogBundle\Entity\Tag'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName() {
-        return 'blogbundle_tag';
     }
 
 }

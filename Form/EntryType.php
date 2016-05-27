@@ -2,6 +2,7 @@
 
 namespace bizbink\BlogBundle\Form;
 
+use bizbink\BlogBundle\Form\TagType;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -10,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * EntryType
@@ -41,7 +42,7 @@ class EntryType extends AbstractType {
                     'translation_domain' => 'blog'))
                 ->add('tags', CollectionType::class, array(
                     'required' => false,
-                    'entry_type' => new TagType(),
+                    'entry_type' => TagType::class,
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,
@@ -57,19 +58,12 @@ class EntryType extends AbstractType {
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'bizbink\BlogBundle\Entity\Entry'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName() {
-        return 'blogbundle_entry';
     }
 
 }
