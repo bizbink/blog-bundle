@@ -35,7 +35,7 @@ class Entry {
     private $tags;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="bizbink\BlogBundle\Model\AuthorInterface")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $author;
