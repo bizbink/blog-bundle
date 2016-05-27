@@ -14,6 +14,8 @@ namespace bizbink\BlogBundle\Model;
  * @author matthew
  */
 interface AuthorInterface {
-    
+
     public function getId();
+
+    public function getUsername();
 }
