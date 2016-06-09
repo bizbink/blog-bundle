@@ -197,11 +197,11 @@ class Entry {
     /**
      * Set author
      *
-     * @param \AppBundle\Entity\User $author
+     * @param \bizbink\BlogBundle\Model\AuthorInterface $author
      *
      * @return Entry
      */
-    public function setAuthor(\AppBundle\Entity\User $author = null) {
+    public function setAuthor(\bizbink\BlogBundle\Model\AuthorInterface $author = null) {
         $this->author = $author;
 
         return $this;
@@ -210,7 +210,7 @@ class Entry {
     /**
      * Get author
      *
-     * @return \AppBundle\Entity\User
+     * @return \bizbink\BlogBundle\Model\AuthorInterface
      */
     public function getAuthor() {
         return $this->author;
