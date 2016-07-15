@@ -13,28 +13,33 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TagController extends Controller {
     
-    public function indexAction(Request $request, $tag, $page) {
-        return $this->pageAction($request, $tag, $page);
+    public function indexAction(Request $request, $slug) {
+        return $this->pageAction($request, $slug, $page);
     }
     
-    public function pageAction(Request $request, $tag, $page) {
+    public function pageAction(Request $request, $slug) {
+        $page = $request->get('page');
         $blogEntryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Entry');
         $blogCategoryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Category');
         $blogTagRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Tag');
-        $blogEntries = $blogEntryRepository->findAllByTagSlug($tag, $page);
+        $blogEntries = $blogEntryRepository->findAllByTagSlug($slug, $page);
         $blogCategories = $blogCategoryRepository->findAll();
         $blogTags = $blogTagRepository->findAll();
+        $tag = $blogTagRepository->findOneBy(array('slug' => $slug));
         if (empty($blogEntries)) {
-            throw $this->createNotFoundException();
+            throw $this->createNotFoundException(
+                    'No entries found for page ' . $page
+            );
         }
         return $this->render('BlogBundle:Entries:Tag/page.html.twig', array(
                     'blog_categories' => $blogCategories,
                     'blog_tags' => $blogTags,
                     'blog_entries' => $blogEntries,
-                    'tag_slug' => $tag,
+                    'tag' => $tag,
+                    'tag_slug' => $slug,
                     'page' => $page,
         ));
     }

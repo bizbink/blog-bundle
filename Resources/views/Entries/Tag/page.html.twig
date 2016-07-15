@@ -16,7 +16,7 @@
                                 <span class="fa fa-user"></span> {{ blog_entry.author.username }} &#8226 
                                 <span class="fa fa-folder"></span>
                                 {% if blog_entry.category %}
-                                    <a href="{{ path('bizbink_blog_category', {'category': blog_entry.category.name}) }}"> {{ blog_entry.category.name }} </a>
+                                    <a href="{{ path('bizbink_blog_category', {'slug': blog_entry.category.slug}) }}"> {{ blog_entry.category.name }} </a>
                                 {% else %}
                                     N/A
                                 {% endif %}
@@ -30,7 +30,7 @@
                                 <hr>
 
                                 {% for tag in blog_entry.tags %}
-                                    <a href="{{ path('bizbink_blog_tag', {'tag': tag.name}) }}" class="btn btn-xs btn-primary" role="button">{{ tag.name }}</a>
+                                    <a href="{{ path('bizbink_blog_tag', {'slug': tag.slug}) }}" class="btn btn-xs btn-primary" role="button">{{ tag.name }}</a>
                                 {% endfor %}
                             {% endif %}
                         </div>
@@ -42,8 +42,8 @@
     <div class="row">
         <nav>
             <ul class="pager">
-                <li class="{{ page - 1 == 0 ? 'disabled' }}"><a href="{{ path('bizbink_blog_tag_page', {'tag': tag, 'page': page - 1}) }}">Previous</a></li>
-                <li><a href="{{ path('bizbink_blog_tag_page', {'tag': tag, 'page': page + 1}) }}">Next</a></li>
+                <li class="{{ page <= 1 ? 'disabled' }}"><a href="{{ path('bizbink_blog_tag_page', {'slug': tag.slug, 'page': page - 1}) }}">Previous</a></li>
+                <li><a href="{{ path('bizbink_blog_tag_page', {'slug': tag.slug, 'page': page + 1}) }}">Next</a></li>
             </ul>
         </nav>
     </div>

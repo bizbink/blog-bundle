@@ -9,12 +9,12 @@ and open the template in the editor.
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="bizbink_blog_category" path="/{category}" methods="GET">
+    <route id="bizbink_blog_category" path="/{slug}" methods="GET">
         <default key="_controller">BlogBundle:Category:index</default>
         <default key="page">1</default>
     </route>
 
-    <route id="bizbink_blog_category_page" path="/{category}" methods="GET">
+    <route id="bizbink_blog_category_page" path="/{slug}" methods="GET">
         <default key="_controller">BlogBundle:Category:page</default>
         <default key="page">1</default>
         <requirement key="page">\d+</requirement>

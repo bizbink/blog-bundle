@@ -14,9 +14,9 @@ and open the template in the editor.
     
     <import
         resource="@BlogBundle/Resources/config/routing/category.xml"
-        prefix="/categories" />
+        prefix="/category" />
     
     <import
         resource="@BlogBundle/Resources/config/routing/tag.xml"
-        prefix="/tags" />
+        prefix="/tag" />
 </routes>

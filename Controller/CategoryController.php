@@ -13,28 +13,33 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CategoryController extends Controller {
     
-    public function indexAction(Request $request, $category, $page) {
-        return $this->pageAction($request, $category, $page);
+    public function indexAction(Request $request, $slug) {
+        return $this->pageAction($request, $slug);
     }
     
-    public function pageAction(Request $request, $category, $page) {
+    public function pageAction(Request $request, $slug) {
+        $page = $request->get('page');
         $blogEntryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Entry');
         $blogCategoryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Category');
         $blogTagRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Tag');
-        $blogEntries = $blogEntryRepository->findAllByCategorySlug($category, $page);
+        $blogEntries = $blogEntryRepository->findAllByCategorySlug($slug, $page);
         $blogCategories = $blogCategoryRepository->findAll();
         $blogTags = $blogTagRepository->findAll();
+        $category = $blogCategoryRepository->findOneBy(array('slug' => $slug));
         if (empty($blogEntries)) {
-            throw $this->createNotFoundException();
+            throw $this->createNotFoundException(
+                    'No entries found for page ' . $page
+            );
         }
         return $this->render('BlogBundle:Entries:Category/page.html.twig', array(
                     'blog_categories' => $blogCategories,
                     'blog_tags' => $blogTags,
                     'blog_entries' => $blogEntries,
-                    'category_slug' => $category,
+                    'category' => $category,
+                    'category_slug' => $slug,
                     'page' => $page,
         ));
     }

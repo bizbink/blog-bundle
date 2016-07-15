@@ -14,11 +14,12 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class EntryController extends Controller {
 
-    public function indexAction(Request $request, $page) {
-        return $this->pageAction($request, $page);
+    public function indexAction(Request $request) {
+        return $this->pageAction($request);
     }
 
-    public function pageAction(Request $request, $page) {
+    public function pageAction(Request $request) {
+        $page = $request->get('page');
         $blogEntryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Entry');
         $blogCategoryRepository = $this->getDoctrine()
