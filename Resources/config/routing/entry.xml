@@ -14,9 +14,8 @@ and open the template in the editor.
         <default key="page">1</default>
     </route>
 
-    <route id="bizbink_blog_entry_page" path="/{page}">
+    <route id="bizbink_blog_entry_page" path="/page/{page}">
         <default key="_controller">BlogBundle:Entry:page</default>
-        <default key="page">1</default>
         <requirement key="page">\d+</requirement>
     </route>
 
