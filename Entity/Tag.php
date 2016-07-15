@@ -30,6 +30,11 @@ class Tag {
     private $name;
 
     /**
+     * @ORM\Column(name="slug", type="string", length=255)
+     */
+    private $slug;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Entry", mappedBy="tags")
      * */
     private $entries;
@@ -70,6 +75,28 @@ class Tag {
      */
     public function getName() {
         return $this->name;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Tag
+     */
+    public function setSlug($slug) {
+        $this->name = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug() {
+        return $this->slug;
     }
 
     /**

@@ -32,6 +32,19 @@ class EntryRepository extends \Doctrine\ORM\EntityRepository {
                         ->getQuery()->getResult();
     }
 
+    public function findAllByCategorySlug($slug, $page = NULL) {
+        $queryBuilder = $this->createQueryBuilder('e')
+                ->join('BlogBundle:Category', 'c', \Doctrine\ORM\Query\Expr\Join::INNER_JOIN, 'e.category = c.id')
+                ->where('c.slug = :slug')
+                ->orderBy('e.id', 'DESC');
+        if (isset($page)) {
+            $queryBuilder->setFirstResult(($page - 1) * 5);
+            $queryBuilder->setMaxResults($page * 5);
+        }
+        return $queryBuilder->setParameter('slug', $slug)
+                        ->getQuery()->getResult();
+    }
+
     public function findAllByTagName($name, $page = NULL) {
         $queryBuilder = $this->createQueryBuilder('e')
                 ->join('e.tags', 't')
@@ -42,6 +55,19 @@ class EntryRepository extends \Doctrine\ORM\EntityRepository {
             $queryBuilder->setMaxResults($page * 5);
         }
         return $queryBuilder->setParameter('name', $name)
+                        ->getQuery()->getResult();
+    }
+
+    public function findAllByTagSlug($slug, $page = NULL) {
+        $queryBuilder = $this->createQueryBuilder('e')
+                ->join('e.tags', 't')
+                ->where('t.slug = :slug')
+                ->orderBy('e.id', 'DESC');
+        if (isset($page)) {
+            $queryBuilder->setFirstResult(($page - 1) * 5);
+            $queryBuilder->setMaxResults($page * 5);
+        }
+        return $queryBuilder->setParameter('slug', $slug)
                         ->getQuery()->getResult();
     }
 

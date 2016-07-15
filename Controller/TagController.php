@@ -24,7 +24,7 @@ class TagController extends Controller {
                 ->getRepository('BlogBundle:Category');
         $blogTagRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Tag');
-        $blogEntries = $blogEntryRepository->findAllByTagName($tag, $page);
+        $blogEntries = $blogEntryRepository->findAllByTagSlug($tag, $page);
         $blogCategories = $blogCategoryRepository->findAll();
         $blogTags = $blogTagRepository->findAll();
         if (empty($blogEntries)) {
@@ -34,7 +34,7 @@ class TagController extends Controller {
                     'blog_categories' => $blogCategories,
                     'blog_tags' => $blogTags,
                     'blog_entries' => $blogEntries,
-                    'tag' => $tag,
+                    'tag_slug' => $tag,
                     'page' => $page,
         ));
     }
