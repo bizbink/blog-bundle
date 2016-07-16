@@ -42,19 +42,19 @@ class EntryController extends Controller {
         ));
     }
 
-    public function viewAction(Request $request, $id) {
+    public function viewAction(Request $request, $id, $slug) {
         $blogEntryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Entry');
         $blogCategoryRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Category');
         $blogTagRepository = $this->getDoctrine()
                 ->getRepository('BlogBundle:Tag');
-        $blogEntry = $blogEntryRepository->find($id);
+        $blogEntry = $blogEntryRepository->findOneBy(array('id' => $id, 'slug' => $slug));
         $blogCategories = $blogCategoryRepository->findAll();
         $blogTags = $blogTagRepository->findAll();
         if (!$blogEntry) {
             throw $this->createNotFoundException(
-                    'No entry found for id ' . $id
+                    'Entry not found'
             );
         }
         return $this->render('BlogBundle:Entries:view.html.twig', array(

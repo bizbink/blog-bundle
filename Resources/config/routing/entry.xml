@@ -20,7 +20,7 @@ and open the template in the editor.
         <default key="page">1</default>
     </route>
 
-    <route id="bizbink_blog_entry_view" path="/view/{id}" methods="GET">
+    <route id="bizbink_blog_entry_view" path="/{id}-{slug}" methods="GET">
         <default key="_controller">BlogBundle:Entry:view</default>
         <requirement key="id">\d+</requirement>
     </route>

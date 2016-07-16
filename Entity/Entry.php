@@ -23,6 +23,11 @@ class Entry {
     private $id;
 
     /**
+     * @ORM\Column(name="slug", type="string", length=255)
+     */
+    private $slug;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Category", cascade={"persist"}, inversedBy="entries")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
@@ -68,6 +73,28 @@ class Entry {
      */
     public function getId() {
         return $this->id;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Tag
+     */
+    public function setSlug($slug) {
+        $this->name = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug() {
+        return $this->slug;
     }
 
     /**

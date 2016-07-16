@@ -11,7 +11,7 @@
                 <div class="panel-body">
                     <div class="media">
                         <div class="media-body">
-                            <h4 class="media-heading"><a href="{{ path('bizbink_blog_entry_view', {'id': blog_entry.id}) }}">{{ blog_entry.title }}</a></h4>
+                            <h4 class="media-heading"><a href="{{ path('bizbink_blog_entry_view', {'id': blog_entry.id, 'slug': blog_entry.slug}) }}">{{ blog_entry.title }}</a></h4>
                             <h6 class="media-heading">
                                 <span class="fa fa-user"></span> {{ blog_entry.author.username }} &#8226 
                                 <span class="fa fa-folder"></span>
