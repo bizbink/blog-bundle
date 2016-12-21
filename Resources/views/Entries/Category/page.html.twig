@@ -42,7 +42,7 @@
     <div class="row">
         <nav>
             <ul class="pager">
-                <li class="{{ page <= ? 'disabled' }}"><a href="{{ path('bizbink_blog_category_page', {'slug': category.slug, 'page': page - 1}) }}">Previous</a></li>
+                <li class="{{ page <= 1 ? 'disabled' }}"><a href="{{ path('bizbink_blog_category_page', {'slug': category.slug, 'page': page - 1}) }}">Previous</a></li>
                 <li><a href="{{ path('bizbink_blog_category_page', {'slug': category.slug, 'page': page + 1}) }}">Next</a></li>
             </ul>
         </nav>
