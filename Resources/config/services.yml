@@ -1,0 +1,7 @@
+services:
+  bizbink\BlogBundle\Twig\BlogExtension:
+    public: false
+    tags: ['twig.extension']
+  bizbink\BlogBundle\Twig\BlogRuntime:
+    public: false
+    tags: ['twig.runtime']

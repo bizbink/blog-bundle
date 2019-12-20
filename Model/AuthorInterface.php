@@ -1,21 +1,44 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright (C) Matthew Vanderende - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
  */
 
 namespace bizbink\BlogBundle\Model;
 
 /**
- * Description of AuthorInterface
+ * AuthorInterface
  *
- * @author matthew
+ * @author Matthew Vanderende <matthew@vanderende.ca>
  */
-interface AuthorInterface {
+interface AuthorInterface
+{
+    /**
+     * Get the unique identifier
+     *
+     * @return int
+     */
+    public function getId(): int;
 
-    public function getId();
+    /**
+     * Get the username
+     *
+     * @return string
+     */
+    public function getUsername(): string;
 
-    public function getUsername();
+    /**
+     * Get the first name
+     *
+     * @return string
+     */
+    public function getFirstName(): string;
+
+    /**
+     * Get the full name
+     *
+     * @return string
+     */
+    public function getLastName(): string;
 }

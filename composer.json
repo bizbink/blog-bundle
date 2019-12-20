@@ -1,18 +1,37 @@
 {
-    "name": "bizbink/blog-bundle",
-    "description": "A Symfony Bundle that provides blog management.",
-    "authors": [
-        {
-            "name": "bizbink",
-            "email": "hello@bizbink.ca"
-        }
-    ],
-    "require": {
-        "egeloen/ckeditor-bundle": "^4.0.1"
-    },
-    "autoload": {
-        "psr-4": {
-            "bizbink\\BlogBundle\\": ""
-        }
+  "name": "bizbink/blog-bundle",
+  "type": "symfony-bundle",
+  "description": "Symfony FOSUserBundle",
+  "keywords": [
+    "User management"
+  ],
+  "homepage": "https://github.com/bizbink/blog-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Matthew Vanderende",
+      "email": "matthew@vanderende.ca",
+      "homepage": "https://vanderende.ca"
     }
+  ],
+  "require": {
+    "php": "^7.3",
+    "erusev/parsedown": "^1.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "bizbink\\BlogBundle\\": ""
+    },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "bizbink\\BlogBundle\\Tests\\": "/Tests/"
+    }
+  },
+  "support": {
+    "docs": "https://github.com/bizbink/blog-bundle"
+  }
 }

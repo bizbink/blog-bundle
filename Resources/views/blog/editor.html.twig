@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <div id="blog">
+        <div id="messages">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+        <div id="editor">
+
+            {{ form_start(form) }}
+
+            {{ form_errors(form) }}
+
+            <div class="form_row">
+                {{ form_errors(form.title) }}
+                {{ form_label(form.title) }}
+                {{ form_widget(form.title) }}
+            </div>
+
+            <div class="form_row">
+                {{ form_errors(form.slug) }}
+                {{ form_label(form.slug) }}
+                {{ form_widget(form.slug) }}
+            </div>
+
+            <div class="form_row">
+                <div class="content">
+                    {{ form_errors(form.content) }}
+                    {{ form_label(form.content) }}
+                    {{ form_widget(form.content, { 'attr': {'rows': 20} }) }}
+                </div>
+            </div>
+
+            <div class="form_row">
+                {{ form_errors(form.slug) }}
+                {{ form_label(form.tagsText) }}
+                {{ form_widget(form.tagsText) }}
+            </div>
+
+            <div class="form_row">
+                {{ form_errors(form.category) }}
+                {{ form_label(form.category) }}
+                {{ form_widget(form.category) }}
+            </div>
+
+            <div class="form_row action">
+                {{ form_widget(form.submit) }}
+                {% if form.publish is defined %}
+                    {{ form_widget(form.publish) }}
+                {% endif %}
+                {% if form.delete is defined %}
+                    {{ form_widget(form.delete) }}
+                {% endif %}
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/blog.css') }}">
+{% endblock %}
+

@@ -1,5 +1,10 @@
 <?php
 
+/* 
+ * Copyright (C) Matthew Vanderende - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ */
+
 namespace bizbink\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -8,12 +13,17 @@ use Doctrine\ORM\Mapping as ORM;
  * Category
  *
  * @author Matthew Vanderende <matthew@vanderende.ca>
+ *
  * @ORM\Table(name="blog_categories")
- * @ORM\Entity(repositoryClass="CategoryRepository")
+ * @ORM\Entity(repositoryClass="bizbink\BlogBundle\Repository\CategoryRepository")
  */
-class Category {
-
+class Category
+{
     /**
+     * The unique identifier for this entity
+     * 
+     * @var int
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -21,109 +31,93 @@ class Category {
     private $id;
 
     /**
+     * The print friendly name to display
+     * @var string
+     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
-     * @ORM\Column(name="slug", type="string", length=255)
+     * The slug to be used for permanent URI's
+     * 
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="Entry", mappedBy="category")
-     * */
-    private $entries;
-
-    /**
      * Constructor
+     *
+     * @param string $name
+     * @param string $slug
      */
-    public function __construct() {
-        $this->entries = new \Doctrine\Common\Collections\ArrayCollection();
+    public function __construct(string $name = null, string $slug = null)
+    {
+        if (!is_null($name)) {
+            $this->name = $name;
+        }
+        if (!is_null($slug)) {
+            $this->slug = $slug;
+        }
     }
 
     /**
-     * Get id
+     * Get the unique identifier for this entity
      *
-     * @return integer
+     * @return int
      */
-    public function getId() {
+    public function getId() : int
+    {
         return $this->id;
     }
 
     /**
-     * Set name
+     * Set the print friendly name to be displayed
      *
      * @param string $name
      *
      * @return Category
      */
-    public function setName($name) {
+    public function setName(string $name) : Category
+    {
         $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get the print friendly name to be displayed
      *
-     * @return string
+     * @return string|null
      */
-    public function getName() {
+    public function getName() : ?string
+    {
         return $this->name;
     }
 
     /**
-     * Set slug
+     * Set the slug for permanent URI's
      *
      * @param string $slug
      *
-     * @return Tag
-     */
-    public function setSlug($slug) {
-        $this->name = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string
-     */
-    public function getSlug() {
-        return $this->slug;
-    }
-
-    /**
-     * Add entry
-     *
-     * @param \bizbink\BlogBundle\Entity\Entry $entry
-     *
      * @return Category
      */
-    public function addEntry(\bizbink\BlogBundle\Entity\Entry $entry) {
-        $this->entries[] = $entry;
+    public function setSlug(string $slug) : Category
+    {
+        $this->slug = $slug;
 
         return $this;
     }
 
     /**
-     * Remove entry
+     * Get the slug for permanent URI's
      *
-     * @param \bizbink\BlogBundle\Entity\Entry $entry
+     * @return string|null
      */
-    public function removeEntry(\bizbink\BlogBundle\Entity\Entry $entry) {
-        $this->entries->removeElement($entry);
+    public function getSlug() : ?string
+    {
+        return $this->slug;
     }
-
-    /**
-     * Get entries
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEntries() {
-        return $this->entries;
-    }
-
 }

@@ -1,13 +1,13 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright (C) Matthew Vanderende - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
  */
 
 namespace bizbink\BlogBundle;
 
+use bizbink\BlogBundle\DependencyInjection\bizbinkBlogExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -15,6 +15,10 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  *
  * @author Matthew Vanderende <matthew@vanderende.ca>
  */
-class BlogBundle extends Bundle {
-    
+class BlogBundle extends Bundle
+{
+    public function getContainerExtension()
+    {
+        return new bizbinkBlogExtension();
+    }
 }
