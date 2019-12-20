@@ -2,37 +2,44 @@
 
 namespace bizbink\BlogBundle\Form;
 
+use bizbink\BlogBundle\Entity\Tag;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * TagType
- *
- * @author Matthew Vanderende <matthew@vanderende.ca>
- */
-class TagType extends AbstractType {
-
+class TagType extends AbstractType
+{
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $builder
-                ->add('name', TextType::class, array(
-                    'required' => true,
-                    'label' => false,
-                    'translation_domain' => 'blog'));
+            ->add('name', TextType::class, [
+                'label' => false
+            ]);
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver)
+    {
         $resolver->setDefaults(array(
-            'data_class' => 'bizbink\BlogBundle\Entity\Tag'
+            'data_class' => Tag::class,
         ));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'blogbundle_tag';
+    }
+
 
 }

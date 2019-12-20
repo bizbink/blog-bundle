@@ -1,20 +1,28 @@
 <?php
 
+/* 
+ * Copyright (C) Matthew Vanderende - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ */
+
 namespace bizbink\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Category
+ * Tag
  *
  * @author Matthew Vanderende <matthew@vanderende.ca>
+ *
  * @ORM\Table(name="blog_tags")
- * @ORM\Entity(repositoryClass="TagRepository")
+ * @ORM\Entity(repositoryClass="bizbink\BlogBundle\Repository\TagRepository")
  */
-class Tag {
-
+class Tag
+{
     /**
-     * @var integer
+     * The unique identifier for this entity
+     *
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -23,6 +31,16 @@ class Tag {
     private $id;
 
     /**
+     * The slug to be used for permanent URI's
+     *
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     */
+    private $slug;
+
+    /**
+     * The print friendly of the name to display
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -30,108 +48,69 @@ class Tag {
     private $name;
 
     /**
-     * @ORM\Column(name="slug", type="string", length=255)
-     */
-    private $slug;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Entry", mappedBy="tags")
-     * */
-    private $entries;
-
-    /**
      * Constructor
+     *
+     * @param string $name
      */
-    public function __construct() {
-        $this->entries = new \Doctrine\Common\Collections\ArrayCollection();
+    public function __construct($name = null)
+    {
+        $this->name = $name;
     }
 
     /**
-     * Get id
+     * Get the unique identifier for this entity
      *
-     * @return integer
+     * @return int
      */
-    public function getId() {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
     /**
-     * Set name
+     * Set the print friendly name to be displayed
      *
      * @param string $name
      *
      * @return Tag
      */
-    public function setName($name) {
+    public function setName(?string $name): Tag
+    {
         $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get the print friendly name to be displayed
      *
-     * @return string
+     * @return string|null
      */
-    public function getName() {
+    public function getName(): ?string
+    {
         return $this->name;
     }
 
     /**
-     * Set slug
+     * Set the slug to be used for permanent URI's
      *
-     * @param string $slug
-     *
+     * @param string|null $slug
      * @return Tag
      */
-    public function setSlug($slug) {
-        $this->name = $slug;
+    public function setSlug(?string $slug): Tag
+    {
+        $this->slug = $slug;
 
         return $this;
     }
 
     /**
-     * Get slug
+     * Get the slug to be used for permanent URI's
      *
-     * @return string
+     * @return string|null
      */
-    public function getSlug() {
+    public function getSlug(): ?string
+    {
         return $this->slug;
     }
-
-    /**
-     * Add entry
-     *
-     * @param \bizbink\BlogBundle\Entity\Entry $entry
-     *
-     * @return Tag
-     */
-    public function addEntry(\bizbink\BlogBundle\Entity\Entry $entry) {
-        $this->entries[] = $entry;
-
-        return $this;
-    }
-
-    /**
-     * Remove entry
-     *
-     * @param \bizbink\BlogBundle\Entity\Entry $entry
-     */
-    public function removeEntry(\bizbink\BlogBundle\Entity\Entry $entry) {
-        $this->entries->removeElement($entry);
-    }
-
-    /**
-     * Get entries
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEntries() {
-        return $this->entries;
-    }
-    
-    public function __toString() {
-        return $this->getName();
-    }
-
 }

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div id="blog">
+        <div id="messages">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+        <div id="manage">
+            <table>
+                <tr>
+                    <th><i class="fas fa-heading"></i> Title</th>
+                    <th><i class="fas fa-folder"></i> Category</th>
+                    <th><i class="fas fa-calendar"></i> Published</th>
+                    <th><i class="fas fa-eye"></i></th>
+                    <th><i class="fas fa-location-arrow"></i> Action</th>
+                </tr>
+                {% for post in posts %}
+                    <tr>
+                        <td class="title">
+                            <a href="{{ path('blog_post', {'id': post.id, 'slug': post.slug}) }}">{{ post.title }}</a>
+                        </td>
+                        <td>{{ post.category is not null ? post.category.name : 'Uncategorized' }}</td>
+                        <td>{{ post.published | date("Y-M-d") }}</td>
+                        <td class="views">{{ post.views }}</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('blog_edit', {'id': post.id}) }}">Edit</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% if previous_page is defined and next_page is defined %}
+                <div class="pager">
+                    {% if  previous_page is null %}
+                        <a class="disabled"><i class="fas fa-chevron-left"></i> Previous</a>
+                    {% else %}
+                        <a href="{{ previous_page }}"><i class="fas fa-chevron-left"></i> Previous</a>
+                    {% endif %}
+                    {% if  next_page is null %}
+                        <a class="disabled">Next <i class="fas fa-chevron-right"></i></a>
+                    {% else %}
+                        <a href="{{ next_page }}">Next <i class="fas fa-chevron-right"></i></a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/blog.css') }}">
+{% endblock %}
+
