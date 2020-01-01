@@ -3,11 +3,10 @@
 
 namespace bizbink\BlogBundle\Event;
 
-
 use bizbink\BlogBundle\Entity\Post;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
-class PostEvent extends Event
+class PostViewEvent extends Event
 {
     const VIEW = 'blog.post.view';
 

@@ -8,21 +8,19 @@
 namespace bizbink\BlogBundle\Controller;
 
 use bizbink\BlogBundle\Entity\Post;
-use bizbink\BlogBundle\Entity\Tag;
-use bizbink\BlogBundle\Event\PostEvent;
 use bizbink\BlogBundle\Form\PostType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
-class EditController extends Controller
+class EditController extends AbstractController
 {
 
     /**
@@ -46,8 +44,8 @@ class EditController extends Controller
 
         $form = $this->createForm(PostType::class, $post, [
             'submit_label' => 'Save',
-            'publish_label' => ($post->getIsPublished()) ? 'Save & Hide' : 'Save & Publish',
-            'entity_manager'=>$this->getDoctrine()->getManager()
+            'publish_label' => ($post->isPublished()) ? 'Save & Hide' : 'Save & Publish',
+            'entity_manager' => $this->getDoctrine()->getManager()
         ]);
 
         $originalTags = new ArrayCollection();
@@ -64,10 +62,10 @@ class EditController extends Controller
             $type = "success";
 
             if ($form->get('publish')->isClicked()) {
-                $post->setIsPublished(($post->getIsPublished()) ? false : true);
+                $post->setPublished(($post->isPublished()) ? false : true);
                 $entityManager->persist($post);
                 $entityManager->flush();
-                $message = ($post->getIsPublished()) ? "Successfully published." : "Successfully hidden.";
+                $message = ($post->isPublished()) ? "Successfully published." : "Successfully hidden.";
             } else if ($form->get('delete')->isClicked()) {
                 return $this->redirectToRoute("blog_delete", ["id" => $post->getId()]);
             }

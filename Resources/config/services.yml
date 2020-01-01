@@ -1,7 +1,20 @@
 services:
+  bizbink\BlogBundle\:
+    resource: '../../*'
+    exclude: '../../{DependencyInjection,Entity,Migrations,Tests}'
+
+  bizbink\BlogBundle\Controller\:
+    resource: '../../Controller'
+    tags: ['controller.service_arguments']
+
+  bizbink\BlogBundle\EventSubscriber\ViewSubscriber:
+    tags:
+      - { name: kernel.event_subscriber }
+    arguments:
+      ['@Doctrine\ORM\EntityManagerInterface']
+
   bizbink\BlogBundle\Twig\BlogExtension:
-    public: false
     tags: ['twig.extension']
+
   bizbink\BlogBundle\Twig\BlogRuntime:
-    public: false
     tags: ['twig.runtime']

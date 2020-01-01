@@ -4,8 +4,8 @@
 namespace bizbink\BlogBundle\EventSubscriber;
 
 
-use bizbink\BlogBundle\Event\PageEvent;
-use bizbink\BlogBundle\Event\PostEvent;
+use bizbink\BlogBundle\Event\PageViewEvent;
+use bizbink\BlogBundle\Event\PostViewEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -24,23 +24,25 @@ class ViewSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            PostEvent::VIEW => [
+            PostViewEvent::class => [
                 ['incrementPostView', 0]
             ],
-            PageEvent::VIEW => [
+            PageViewEvent::class => [
                 ['pageView', 0]
             ],
         ];
     }
 
-    public function incrementPostView(PostEvent $event)
+    public function incrementPostView(PostViewEvent $event)
     {
         $post = $event->getPost();
         $post->setViews($post->getViews() + 1);
         $this->em->persist($event->getPost());
         $this->em->flush();
     }
-    public function pageView(PageEvent $event) {
+
+    public function pageView(PageViewEvent $event)
+    {
         // TODO: More analytics
     }
 }

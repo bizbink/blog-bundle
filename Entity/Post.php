@@ -86,9 +86,9 @@ class Post
      *
      * @var DateTime
      *
-     * @ORM\Column(name="published", type="datetime")
+     * @ORM\Column(name="created", type="datetime")
      */
-    private $published;
+    private $created;
     /**
      * The date and time this entity was edited
      *
@@ -167,9 +167,9 @@ class Post
             $this->tags = new ArrayCollection();
         }
         if (!is_null($published)) {
-            $this->published = $published;
+            $this->created = $published;
         } else {
-            $this->published = new DateTime('now');
+            $this->created = new DateTime('now');
         }
         if (!is_null($this->isPublished)) {
             $this->isPublished = $isPublished;
@@ -192,7 +192,7 @@ class Post
      * Get publicly visibility
      * @return boolean|null
      */
-    public function getIsPublished(): bool
+    public function isPublished(): bool
     {
         return $this->isPublished;
     }
@@ -202,7 +202,7 @@ class Post
      *
      * @param boolean|null $isPublished
      */
-    public function setIsPublished(bool $isPublished): void
+    public function setPublished(bool $isPublished): void
     {
         $this->isPublished = $isPublished;
     }
@@ -346,21 +346,21 @@ class Post
      *
      * @return DateTime|null
      */
-    public function getPublished(): ?DateTime
+    public function getCreated(): ?DateTime
     {
-        return $this->published;
+        return $this->created;
     }
 
     /**
      * Set the date and time this entity was published
      *
-     * @param DateTime $published
+     * @param DateTime $created
      *
      * @return Post
      */
-    public function setPublished(?DateTime $published): Post
+    public function setCreated(?DateTime $created): Post
     {
-        $this->published = $published;
+        $this->created = $created;
 
         return $this;
     }

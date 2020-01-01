@@ -9,18 +9,15 @@ namespace bizbink\BlogBundle\Controller;
 
 use AppBundle\Entity\User;
 use bizbink\BlogBundle\Entity\Post;
-use bizbink\BlogBundle\Entity\Tag;
 use bizbink\BlogBundle\Form\PostType;
-use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
-class CreateController extends Controller
+class CreateController extends AbstractController
 {
 
     /**

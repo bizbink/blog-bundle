@@ -8,15 +8,14 @@
 namespace bizbink\BlogBundle\Controller;
 
 use bizbink\BlogBundle\Entity\Post;
-use bizbink\BlogBundle\Event\PageEvent;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use bizbink\BlogBundle\Event\PageViewEvent;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
-class DefaultController extends Controller
+class DefaultController extends AbstractController
 {
 
     /**
@@ -31,23 +30,21 @@ class DefaultController extends Controller
 
         $posts = $this->getDoctrine()
             ->getRepository(Post::class)
-            ->findBy([], ["published" => "desc"], 3, ($page - 1) * 3);
-
+            ->findBy(["isPublished" => true], ["created" => "desc"], 3, ($page - 1) * 3);
 
         if ($eventDispatcher) {
-            $eventDispatcher->dispatch(PageEvent::VIEW, new PageEvent($page));
+            $eventDispatcher->dispatch(new PageViewEvent($page));
         }
 
-        $nextPosts = $this->getDoctrine()
+        $hasNext = $this->getDoctrine()
             ->getRepository(Post::class)
-            ->findBy([], ["published" => "desc"], 3, $page * 3);
+            ->findBy(["isPublished" => true], ["created" => "desc"], 3, $page * 3);
 
         return $this->render('@Blog/blog/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')) . DIRECTORY_SEPARATOR,
             'page' => $page,
             'posts' => $posts,
             'previous_page' => $page != 1 ? $this->generateUrl('blog', ["page" => $page - 1]) : null,
-            'next_page' => count($nextPosts) > 0 ? $this->generateUrl('blog', ["page" => $page + 1]) : null,
+            'next_page' => count($hasNext) > 0 ? $this->generateUrl('blog', ["page" => $page + 1]) : null,
         ]);
     }
 }

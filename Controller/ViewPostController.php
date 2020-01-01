@@ -8,15 +8,15 @@
 namespace bizbink\BlogBundle\Controller;
 
 use bizbink\BlogBundle\Entity\Post;
-use bizbink\BlogBundle\Event\PostEvent;
+use bizbink\BlogBundle\Event\PostViewEvent;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
-class ViewPostController extends Controller
+class ViewPostController extends AbstractController
 {
 
     /**
@@ -27,15 +27,15 @@ class ViewPostController extends Controller
      * @param $slug
      * @return Response
      */
-    public function indexAction(Request $request, EventDispatcherInterface $eventDispatcher, $id, $slug)
+    public function indexAction(Request $request, $id, $slug, EventDispatcherInterface $eventDispatcher)
     {
 
-        $post =  $this->getDoctrine()
+        $post = $this->getDoctrine()
             ->getRepository(Post::class)
-            ->findOneBy(["id"=>$id,"slug"=>$slug, 'is_published'=> true]);
+            ->findOneBy(["id" => $id, "slug" => $slug]);
 
         if ($post instanceof Post && $eventDispatcher) {
-            $eventDispatcher->dispatch(PostEvent::VIEW,  new PostEvent($post));
+            $eventDispatcher->dispatch(new PostViewEvent($post));
         }
 
         return $this->render('@Blog/blog/index.html.twig', [

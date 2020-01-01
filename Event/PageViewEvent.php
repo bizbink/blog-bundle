@@ -3,10 +3,9 @@
 
 namespace bizbink\BlogBundle\Event;
 
+use Symfony\Contracts\EventDispatcher\Event;
 
-use Symfony\Component\EventDispatcher\Event;
-
-class PageEvent extends Event
+class PageViewEvent extends Event
 {
     const VIEW = 'blog.page.view';
 
