@@ -1,9 +1,9 @@
 {
   "name": "bizbink/blog-bundle",
   "type": "symfony-bundle",
-  "description": "Symfony FOSUserBundle",
+  "description": "Symfony BlogBundle",
   "keywords": [
-    "User management"
+    "Blog management"
   ],
   "homepage": "https://github.com/bizbink/blog-bundle",
   "license": "MIT",
