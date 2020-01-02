@@ -16,7 +16,7 @@ Documentation
 The source of the documentation is stored in the `Resources/doc/` folder
 in this bundle:
 
-[Read the Documentation for master](Resources/doc/quick_start.md)
+[Read the Documentation for 3.4](https://github.com/bizbink/blog-bundle/wiki/Symfony-3.4)
 
 Installation
 ------------
