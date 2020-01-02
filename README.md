@@ -1,7 +1,7 @@
 BlogBundle
 ==========
 
-A lightweight bundle for simple packed with features designed for Symfony3 and stored via Doctrine ORM.
+A lightweight bundle packed with essential blogging features designed for Symfony and stored via Doctrine ORM.
 
 Features
 - Markdown translated to HTML
