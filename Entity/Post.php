@@ -103,7 +103,7 @@ class Post
      *
      * @var ArrayCollection|Tag[]
      *
-     * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"}, inversedBy="posts")
      * @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
      */
     private $tags;

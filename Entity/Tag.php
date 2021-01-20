@@ -48,6 +48,13 @@ class Tag
     private $name;
 
     /**
+     * @var Post
+     *
+     * @ORM\ManyToMany(targetEntity="Post", mappedBy="tags")
+     */
+    protected $posts;
+
+    /**
      * Constructor
      *
      * @param string $name
