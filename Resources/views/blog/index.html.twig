@@ -15,7 +15,7 @@
                         <li>
                             <i class="fas fa-user"></i> {{ post.author.firstName }} {{ post.author.lastName|slice(0,1) ~ '.' }}
                         </li>
-                        <li><i class="fas fa-calendar"></i> {{ post.published | date("F j, Y") }}</li>
+                        <li><i class="fas fa-calendar"></i> {{ post.created | date("F j, Y") }}</li>
                         <li>
                             <i class="fas fa-folder"></i> {{ post.category is not null ? post.category.name : 'Uncategorized' }}
                         </li>
