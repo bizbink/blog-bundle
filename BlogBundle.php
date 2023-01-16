@@ -8,6 +8,7 @@
 namespace bizbink\BlogBundle;
 
 use bizbink\BlogBundle\DependencyInjection\bizbinkBlogExtension;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -17,7 +18,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class BlogBundle extends Bundle
 {
-    public function getContainerExtension()
+    public function getContainerExtension(): ?ExtensionInterface
     {
         return new bizbinkBlogExtension();
     }

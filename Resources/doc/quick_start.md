@@ -23,7 +23,7 @@ Modify `composer.json` to have git repository and package.
         }
     ],
     "require": {
-        "bizbink/blog-bundle": "^4.4"
+        "bizbink/blog-bundle": "^5.4"
     }
 }
 ```
@@ -71,18 +71,9 @@ There are a few templates for overriding:
 - `manage.html.twig`
 - `create.html.twig`
 
-[Symfony Documentation](https://symfony.com/doc/3.4/templating/overriding.html)
+[Symfony Documentation](https://symfony.com/doc/5.4/templating/overriding.html)
 
 ### Step 4: Configuration
-
-Autoload services (e.g. event subscribers, extensions)
-```yaml
-# config/services.ymal
-services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-```
 
 Register routes with optional prefix
 ```yaml
