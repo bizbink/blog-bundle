@@ -20,6 +20,8 @@ in this bundle and available on repository wiki:
 
 [Read the Documentation for 4.4](https://github.com/bizbink/blog-bundle/wiki/Symfony-4.4)
 
+[Read the Documentation for 5.4](https://github.com/bizbink/blog-bundle/wiki/Symfony-5.4)
+
 Installation
 ------------
 
