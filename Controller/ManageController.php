@@ -9,8 +9,8 @@ namespace bizbink\BlogBundle\Controller;
 
 use AppBundle\Entity\User;
 use bizbink\BlogBundle\Entity\Post;
+use bizbink\BlogBundle\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,21 +25,19 @@ class ManageController extends AbstractController
     /**
      * @Route("/manage", name="blog_manage")
      * @param Request $request
-     * @param ManagerRegistry $managerRegistry
+     * @param PostRepository $postRepository
      * @param EventDispatcherInterface|null $eventDispatcher
      * @return Response
      * @throws Exception
      */
-    public function indexAction(Request $request, ManagerRegistry $managerRegistry, ?EventDispatcherInterface $eventDispatcher)
+    public function indexAction(Request $request, PostRepository $postRepository, ?EventDispatcherInterface $eventDispatcher)
     {
         $page = $request->query->get('page', 1);
 
-        $posts = $managerRegistry
-            ->getRepository(Post::class)
+        $posts = $postRepository
             ->findBy([], ["created" => "desc"], 10, ($page - 1) * 10);
 
-        $nextPosts = $managerRegistry
-            ->getRepository(Post::class)
+        $nextPosts = $postRepository
             ->findBy([], ["created" => "desc"], 10, $page * 10);
 
         return $this->render('@Blog/blog/manage.html.twig', [

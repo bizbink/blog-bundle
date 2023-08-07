@@ -9,8 +9,8 @@ namespace bizbink\BlogBundle\Controller;
 
 use AppBundle\Entity\User;
 use bizbink\BlogBundle\Entity\Post;
+use bizbink\BlogBundle\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -26,15 +26,15 @@ class DeleteController extends AbstractController
     /**
      * @Route("/delete/{id}", name="blog_delete", requirements={"id"="\d+"})
      * @param Request $request
-     * @param ManagerRegistry $managerRegistry
+     * @param PostRepository $postRepository
      * @param EventDispatcherInterface|null $eventDispatcher
      * @param int $id
      * @return RedirectResponse
      */
-    public function indexAction(Request $request, ManagerRegistry $managerRegistry, ?EventDispatcherInterface $eventDispatcher, $id)
+    public function indexAction(Request $request, PostRepository $postRepository, ?EventDispatcherInterface $eventDispatcher, $id)
     {
-        $em = $managerRegistry->getManager();
-        $post = $managerRegistry
+        $em = $postRepository->getManager();
+        $post = $postRepository
             ->getRepository(Post::class)
             ->find($id);
 

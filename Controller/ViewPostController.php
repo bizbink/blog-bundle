@@ -9,7 +9,7 @@ namespace bizbink\BlogBundle\Controller;
 
 use bizbink\BlogBundle\Entity\Post;
 use bizbink\BlogBundle\Event\PostViewEvent;
-use Doctrine\Persistence\ManagerRegistry;
+use bizbink\BlogBundle\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -23,17 +23,16 @@ class ViewPostController extends AbstractController
     /**
      * @Route("/{id}-{slug}", name="blog_post", requirements={"id"="\d+"})
      * @param Request $request
-     * @param ManagerRegistry $managerRegistry
+     * @param PostRepository $postRepository
      * @param EventDispatcherInterface|null $eventDispatcher
      * @param $id
      * @param $slug
      * @return Response
      */
-    public function indexAction(Request $request, ManagerRegistry $managerRegistry, EventDispatcherInterface $eventDispatcher, $id, $slug)
+    public function indexAction(Request $request, PostRepository $postRepository, EventDispatcherInterface $eventDispatcher, $id, $slug)
     {
 
-        $post = $managerRegistry
-            ->getRepository(Post::class)
+        $post = $postRepository
             ->findOneBy(["id" => $id, "slug" => $slug]);
 
         if ($post instanceof Post && $eventDispatcher) {

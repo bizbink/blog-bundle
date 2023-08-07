@@ -9,8 +9,8 @@ namespace bizbink\BlogBundle\Controller;
 
 use bizbink\BlogBundle\Entity\Post;
 use bizbink\BlogBundle\Form\PostType;
+use bizbink\BlogBundle\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,17 +27,16 @@ class EditController extends AbstractController
     /**
      * @Route("/edit/{id}", name="blog_edit", requirements={"id"="\d+"}, methods={"GET","POST"})
      * @param Request $request
-     * @param ManagerRegistry $managerRegistry
+     * @param PostRepository $postRepository
      * @param EventDispatcherInterface $eventDispatcher
      * @param $id
      * @return RedirectResponse|Response
      * @throws Exception
      * @throws NotFoundHttpException
      */
-    public function index(Request $request, ManagerRegistry $managerRegistry, EventDispatcherInterface $eventDispatcher, $id)
+    public function index(Request $request, PostRepository $postRepository, EventDispatcherInterface $eventDispatcher, $id)
     {
-        $post = $managerRegistry
-            ->getRepository(Post::class)
+        $post = $postRepository
             ->findOneBy(["id" => $id]);
 
         if (!$post instanceof Post) {
@@ -47,7 +46,7 @@ class EditController extends AbstractController
         $form = $this->createForm(PostType::class, $post, [
             'submit_label' => 'Save',
             'publish_label' => ($post->isPublished()) ? 'Save & Hide' : 'Save & Publish',
-            'entity_manager' => $managerRegistry->getManager()
+            'entity_manager' => $postRepository->getManager()
         ]);
 
         $originalTags = new ArrayCollection();
@@ -59,7 +58,7 @@ class EditController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $managerRegistry->getManager();
+            $entityManager = $postRepository->getManager();
             $message = "Successfully edited.";
             $type = "success";
 

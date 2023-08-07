@@ -9,7 +9,7 @@ namespace bizbink\BlogBundle\Controller;
 
 use bizbink\BlogBundle\Entity\Post;
 use bizbink\BlogBundle\Event\PageViewEvent;
-use Doctrine\Persistence\ManagerRegistry;
+use bizbink\BlogBundle\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,24 +22,22 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="blog")
      * @param Request $request
-     * @param ManagerRegistry $managerRegistry
+     * @param PostRepository $postRepository
      * @param EventDispatcherInterface|null $eventDispatcher
      * @return Response
      */
-    public function indexAction(Request $request, ManagerRegistry $managerRegistry, EventDispatcherInterface $eventDispatcher = null)
+    public function indexAction(Request $request, PostRepository $postRepository, EventDispatcherInterface $eventDispatcher = null)
     {
         $page = $request->query->get('page', 1);
 
-        $posts = $managerRegistry
-            ->getRepository(Post::class)
+        $posts = $postRepository
             ->findBy(["isPublished" => true], ["created" => "desc"], 3, ($page - 1) * 3);
 
         if ($eventDispatcher) {
             $eventDispatcher->dispatch(new PageViewEvent($page));
         }
 
-        $hasNext = $managerRegistry
-            ->getRepository(Post::class)
+        $hasNext = $postRepository
             ->findBy(["isPublished" => true], ["created" => "desc"], 3, $page * 3);
 
         return $this->render('@Blog/blog/index.html.twig', [
