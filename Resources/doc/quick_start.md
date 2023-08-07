@@ -5,14 +5,15 @@ Installation
 ------------
 
 1. Download
-2. Implementation
-3. (Optional) Override templates
-4. Configuration
-5. Update database schema
+2. (Optional) Include development
+3. Implementation
+4. (Optional) Override templates
+5. Configuration
+6. Update database schema
 
 ### Step 1: Download BlogBundle via Composer
 
-Modify `composer.json` to have git repository and package.
+Modify `composer.json` to include git repository and require stable release of bundle..
 
 ```json
 {
@@ -28,6 +29,16 @@ Modify `composer.json` to have git repository and package.
 }
 ```
 
+### Step 2: (Optional) Include development for testing and/or non-production/critical.
+
+```json
+{
+    "require-dev": {
+        "bizbink/blog-bundle": "^5.4.x-dev"
+    }
+}
+```
+
 Run command to update dependencies and enable bundle.
 
 ```bash
@@ -36,9 +47,9 @@ composer update
 
 [Composer Documentation](https://getcomposer.org/doc/05-repositories.md#vcs)
 
-### Step 2: Implement the interface
+### Step 3: Implement author interface with current design
 
-There are advantages of interfacing rather than including a `User` object within BlogBundle.
+There are advantages of interfacing rather than including a `User` object within BlogBundle. The most obvious advantage is ability to use an existing object for authentication.
 
 ```php
 // Model/AuthorInterface.php
@@ -51,7 +62,7 @@ interface AuthorInterface
 }
 ```
 
-Mappings are done using `id` field. First and last name are displayed by default, this can be changed when overriding templates.
+Mappings are done using `id` field. First and last name are displayed by default, this can be changed by overriding templates.
 
 ```yaml
 # config\packages\doctrine.ymal
@@ -63,7 +74,7 @@ doctrine:
 
 Add to `resolve_target_entities` for doctrine configuration. It'll resolve to an existing `User` object that implements `AuthorInterface`.
 
-### Step 3: (Optional) Override template
+### Step 4: (Optional) Override template
 
 There are a few templates for overriding:
 
@@ -73,7 +84,7 @@ There are a few templates for overriding:
 
 [Symfony Documentation](https://symfony.com/doc/5.4/templating/overriding.html)
 
-### Step 4: Configuration
+### Step 5: Configuration
 
 Register routes with optional prefix
 ```yaml
@@ -84,7 +95,9 @@ blog:
     prefix: /blog
 ```
 
-### Step 5: Update database schema
+### Step 6: Update database schema (not recommended)
+
+It's recommended to use migrations, but the following can used to forcefully update database schema.
 
 ```bash
 php bin/console doctrine:schema:update --force
