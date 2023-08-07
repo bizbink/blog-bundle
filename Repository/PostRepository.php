@@ -7,17 +7,24 @@
 
 namespace bizbink\BlogBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use bizbink\BlogBundle\Entity\Post;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * PostRepository
  *
  * @author Matthew Vanderende <matthew@vanderende.ca>
  */
-class PostRepository extends EntityRepository
+class PostRepository extends ServiceEntityRepository
 {
 
-    public function findByTagSlug(string $slug, int $limit,int $offset): array
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Post::class);
+    }
+
+    public function findByTagSlug(string $slug, int $limit, int $offset): array
     {
         $entityManager = $this->getEntityManager();
 
@@ -26,9 +33,10 @@ class PostRepository extends EntityRepository
             JOIN bp.tags pt
             WHERE pt.slug = :slug
             ORDER BY bp.created DESC'
-        )->setParameter('slug', $slug)
+        )
             ->setMaxResults($limit)
-            ->setFirstResult($offset);
+            ->setFirstResult($offset)
+            ->setParameter('slug', $slug);
 
         return $query->getResult();
     }

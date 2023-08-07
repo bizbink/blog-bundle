@@ -7,13 +7,19 @@
 
 namespace bizbink\BlogBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * CategoryRepository
  *
  * @author Matthew Vanderende <matthew@vanderende.ca>
  */
-class CategoryRepository extends EntityRepository
+class CategoryRepository extends ServiceEntityRepository
 {
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Post::class);
+    }
 }
