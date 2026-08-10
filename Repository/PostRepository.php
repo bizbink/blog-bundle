@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * Copyright (C) Matthew Vanderende - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
  */
@@ -22,6 +22,11 @@ class PostRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Post::class);
+    }
+
+    public function getManager()
+    {
+        return $this->getEntityManager();
     }
 
     public function findByTagSlug(string $slug, int $limit, int $offset): array
