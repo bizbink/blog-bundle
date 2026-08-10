@@ -96,7 +96,6 @@ class Post
      * @var ArrayCollection|Tag[]
      */
     #[ORM\ManyToMany(targetEntity: Tag::class, cascade: ['persist'], inversedBy: 'posts')]
-    #[ORM\JoinColumn(name: 'tag_id', referencedColumnName: 'id')]
     private $tags;
     /**
      * The collection of Category entities mapped to this entity
@@ -121,7 +120,7 @@ class Post
      *
      * The parameters 'published' and 'updated' default to the current date and time
      *
-     * @param $author
+     * @param AuthorInterface|null $author
      * @param string $title
      * @param string $slug
      * @param string $content
