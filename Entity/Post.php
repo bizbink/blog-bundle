@@ -171,7 +171,7 @@ class Post
         } else {
             $this->created = new DateTime('now');
         }
-        if (!is_null($this->isPublished)) {
+        if (!is_null($isPublished)) {
             $this->isPublished = $isPublished;
         } else {
             $this->isPublished = false;
