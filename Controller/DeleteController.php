@@ -34,9 +34,7 @@ class DeleteController extends AbstractController
     public function indexAction(Request $request, PostRepository $postRepository, ?EventDispatcherInterface $eventDispatcher, $id)
     {
         $em = $postRepository->getManager();
-        $post = $postRepository
-            ->getRepository(Post::class)
-            ->find($id);
+        $post = $postRepository->find($id);
 
         if (!$post instanceof Post) {
             throw $this->createNotFoundException("Could not find post for id " . $id);
