@@ -19,13 +19,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class EditController extends AbstractController
 {
 
     /**
-     * @Route("/edit/{id}", name="blog_edit", requirements={"id"="\d+"}, methods={"GET","POST"})
      * @param Request $request
      * @param PostRepository $postRepository
      * @param EventDispatcherInterface $eventDispatcher
@@ -34,6 +33,7 @@ class EditController extends AbstractController
      * @throws Exception
      * @throws NotFoundHttpException
      */
+    #[Route('/edit/{id}', name: 'blog_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function index(Request $request, PostRepository $postRepository, EventDispatcherInterface $eventDispatcher, $id)
     {
         $post = $postRepository

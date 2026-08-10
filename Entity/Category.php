@@ -7,44 +7,41 @@
 
 namespace bizbink\BlogBundle\Entity;
 
+use bizbink\BlogBundle\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Category
  *
  * @author Matthew Vanderende <matthew@vanderende.ca>
- *
- * @ORM\Table(name="blog_categories")
- * @ORM\Entity(repositoryClass="bizbink\BlogBundle\Repository\CategoryRepository")
  */
+#[ORM\Table(name: 'blog_categories')]
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
     /**
      * The unique identifier for this entity
      * 
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(name: 'id', type: 'integer')]
     private $id;
 
     /**
      * The print friendly name to display
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 255)]
     private $name;
 
     /**
      * The slug to be used for permanent URI's
      * 
      * @var string
-     *
-     * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
+    #[ORM\Column(name: 'slug', type: 'string', length: 255, unique: true)]
     private $slug;
 
     /**

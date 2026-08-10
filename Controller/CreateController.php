@@ -16,19 +16,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class CreateController extends AbstractController
 {
 
     /**
-     * @Route("/create", name="blog_create")
      * @param Request $request
      * @param PostRepository $postRepository
      * @param EventDispatcherInterface|null $eventDispatcher
      * @return Response
      * @throws Exception
      */
+    #[Route('/create', name: 'blog_create')]
     public function indexAction(Request $request, PostRepository $postRepository, EventDispatcherInterface $eventDispatcher)
     {
         $post = new Post();

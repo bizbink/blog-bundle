@@ -18,19 +18,19 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class DeleteController extends AbstractController
 {
 
     /**
-     * @Route("/delete/{id}", name="blog_delete", requirements={"id"="\d+"})
      * @param Request $request
      * @param PostRepository $postRepository
      * @param EventDispatcherInterface|null $eventDispatcher
      * @param int $id
      * @return RedirectResponse
      */
+    #[Route('/delete/{id}', name: 'blog_delete', requirements: ['id' => '\d+'])]
     public function indexAction(Request $request, PostRepository $postRepository, ?EventDispatcherInterface $eventDispatcher, $id)
     {
         $em = $postRepository->getManager();

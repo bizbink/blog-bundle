@@ -17,13 +17,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class TagController extends AbstractController
 {
 
     /**
-     * @Route("/tag/{slug}", name="blog_post_tag")
      * @param Request $request
      * @param PostRepository $postRepository
      * @param $slug
@@ -31,6 +30,7 @@ class TagController extends AbstractController
      * @throws Exception
      * @throws NotFoundHttpException
      */
+    #[Route('/tag/{slug}', name: 'blog_post_tag')]
     public function indexAction(Request $request, PostRepository $postRepository, string $slug)
     {
         $page = $request->query->get('page', 1);

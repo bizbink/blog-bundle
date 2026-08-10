@@ -15,13 +15,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class ViewPostController extends AbstractController
 {
 
     /**
-     * @Route("/{id}-{slug}", name="blog_post", requirements={"id"="\d+"})
      * @param Request $request
      * @param PostRepository $postRepository
      * @param EventDispatcherInterface|null $eventDispatcher
@@ -29,6 +28,7 @@ class ViewPostController extends AbstractController
      * @param $slug
      * @return Response
      */
+    #[Route('/{id}-{slug}', name: 'blog_post', requirements: ['id' => '\d+'])]
     public function indexAction(Request $request, PostRepository $postRepository, EventDispatcherInterface $eventDispatcher, $id, $slug)
     {
 

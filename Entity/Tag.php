@@ -7,51 +7,47 @@
 
 namespace bizbink\BlogBundle\Entity;
 
+use bizbink\BlogBundle\Repository\TagRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Tag
  *
  * @author Matthew Vanderende <matthew@vanderende.ca>
- *
- * @ORM\Table(name="blog_tags")
- * @ORM\Entity(repositoryClass="bizbink\BlogBundle\Repository\TagRepository")
  */
+#[ORM\Table(name: 'blog_tags')]
+#[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag
 {
     /**
      * The unique identifier for this entity
      *
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(name: 'id', type: 'integer')]
     private $id;
 
     /**
      * The slug to be used for permanent URI's
      *
      * @var string
-     *
-     * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
+    #[ORM\Column(name: 'slug', type: 'string', length: 255, unique: true)]
     private $slug;
 
     /**
      * The print friendly of the name to display
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 255)]
     private $name;
 
     /**
      * @var Post
-     *
-     * @ORM\ManyToMany(targetEntity="Post", mappedBy="tags")
      */
+    #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'tags')]
     protected $posts;
 
     /**

@@ -17,19 +17,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class ManageController extends AbstractController
 {
 
     /**
-     * @Route("/manage", name="blog_manage")
      * @param Request $request
      * @param PostRepository $postRepository
      * @param EventDispatcherInterface|null $eventDispatcher
      * @return Response
      * @throws Exception
      */
+    #[Route('/manage', name: 'blog_manage')]
     public function indexAction(Request $request, PostRepository $postRepository, ?EventDispatcherInterface $eventDispatcher)
     {
         $page = $request->query->get('page', 1);

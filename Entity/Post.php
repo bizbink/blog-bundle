@@ -8,6 +8,7 @@
 namespace bizbink\BlogBundle\Entity;
 
 use bizbink\BlogBundle\Model\AuthorInterface;
+use bizbink\BlogBundle\Repository\PostRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,109 +21,97 @@ use Symfony\Component\Validator\Constraints\Date;
  * Post
  *
  * @author Matthew Vanderende <matthew@vanderende.ca>
- *
- * @ORM\Table(name="blog_posts")
- * @ORM\Entity(repositoryClass="bizbink\BlogBundle\Repository\PostRepository")
  */
+#[ORM\Table(name: 'blog_posts')]
+#[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
 {
     /**
      * The unique identifier for this entity
      *
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(name: 'id', type: 'integer')]
     private $id;
 
     /**
      * The author of this entity
      *
      * @var AuthorInterface
-     *
-     * @ORM\ManyToOne(targetEntity="\bizbink\BlogBundle\Model\AuthorInterface")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
+    #[ORM\ManyToOne(targetEntity: AuthorInterface::class)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private $author;
 
     /**
      * The print friendly title to be displayed
      *
      * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255)
      */
+    #[ORM\Column(name: 'title', type: 'string', length: 255)]
     private $title;
 
     /**
      * The slug to be used for permanent URI's
      *
      * @var string
-     *
-     * @ORM\Column(name="slug", type="string", length=255)
      */
+    #[ORM\Column(name: 'slug', type: 'string', length: 255)]
     private $slug;
 
     /**
      * The raw content of this entity
      *
      * @var string
-     *
-     * @ORM\Column(name="content", type="text")
      */
+    #[ORM\Column(name: 'content', type: 'text')]
     private $content;
     /**
      * Determines weather the post is publicly visible
      *
      * @var bool
-     *
-     * @ORM\Column(name="is_published", type="boolean", )
      */
+    #[ORM\Column(name: 'is_published', type: 'boolean')]
     private $isPublished;
     /**
      * The date and time this entity was published
      *
      * @var DateTime
-     *
-     * @ORM\Column(name="created", type="datetime")
      */
+    #[ORM\Column(name: 'created', type: 'datetime')]
     private $created;
     /**
      * The date and time this entity was edited
      *
      * @var DateTime
-     *
-     * @ORM\Column(name="updated", type="datetime")
      */
+    #[ORM\Column(name: 'updated', type: 'datetime')]
     private $updated;
     private $tagsText;
     /**
      * The collection of Tag entities mapped to this entity
      *
      * @var ArrayCollection|Tag[]
-     *
-     * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"}, inversedBy="posts")
-     * @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
      */
+    #[ORM\ManyToMany(targetEntity: Tag::class, cascade: ['persist'], inversedBy: 'posts')]
+    #[ORM\JoinColumn(name: 'tag_id', referencedColumnName: 'id')]
     private $tags;
     /**
      * The collection of Category entities mapped to this entity
      *
      * @var Category
-     *
-     * @ORM\ManyToOne(targetEntity="Category")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id')]
     private $category;
     /**
      * The number of views
      *
      * @var integer
-     *
-     * @ORM\Column(name="views", type="integer")
      */
+    #[ORM\Column(name: 'views', type: 'integer')]
     private $views;
 
     /**
