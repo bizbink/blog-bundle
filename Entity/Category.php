@@ -53,7 +53,7 @@ class Category
      * @param string $name
      * @param string $slug
      */
-    public function __construct(string $name = null, string $slug = null)
+    public function __construct(?string $name = null, ?string $slug = null)
     {
         if (!is_null($name)) {
             $this->name = $name;

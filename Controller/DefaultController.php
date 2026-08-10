@@ -26,7 +26,7 @@ class DefaultController extends AbstractController
      * @param EventDispatcherInterface|null $eventDispatcher
      * @return Response
      */
-    public function indexAction(Request $request, PostRepository $postRepository, EventDispatcherInterface $eventDispatcher = null)
+    public function indexAction(Request $request, PostRepository $postRepository, ?EventDispatcherInterface $eventDispatcher = null)
     {
         $page = $request->query->get('page', 1);
 

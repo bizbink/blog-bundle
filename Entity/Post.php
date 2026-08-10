@@ -144,7 +144,7 @@ class Post
      * @param int|null $views
      * @throws Exception
      */
-    public function __construct($author = null, string $title = null, string $slug = null, string $content = null, Category $category = null, ArrayCollection $tags = null, bool $isPublished = null, DateTime $published = null, DateTime $updated = null, int $views = null)
+    public function __construct($author = null, ?string $title = null, ?string $slug = null, ?string $content = null, ?Category $category = null, ?ArrayCollection $tags = null, ?bool $isPublished = null, ?DateTime $published = null, ?DateTime $updated = null, ?int $views = null)
     {
         if (!is_null($author)) {
             $this->author = $author;
